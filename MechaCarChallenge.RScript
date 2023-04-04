@@ -1,0 +1,42 @@
+install.packages("tidyverse")
+install.packages("jsonlite")
+install.packages("dplyr")
+
+# Deliverable 1
+
+mecha_coils <- read.csv(file = "MechaCar_mpg.csv")
+
+library(tidyverse)
+
+lm(mpg ~ vehicle_length + vehicle_weight + spoiler_angle + ground_clearance + AWD, data = mecha_coils)
+
+
+
+# Deliverable 2
+
+susp_coils <- read.csv(file = "Suspension_Coil.csv")
+
+summary_group <- susp_coils %>% summarize(Mean=mean(PSI),Median=median(PSI),Variance=var(PSI),SD=sd(PSI), .groups="keep")
+
+summary_lot <- susp_coils %>% group_by(Manufacturing_Lot) %>% summarize(Mean=mean(PSI),Median=median(PSI),Variance=var(PSI),SD=sd(PSI), .groups="keep")
+
+plt1 <- ggplot(susp_coils,aes(y=PSI))
+plt1 + geom_boxplot()
+
+plt2 <- ggplot(susp_coils,aes(x=Manufacturing_Lot,y=PSI))
+plt2 + geom_boxplot()
+
+
+
+
+# Deliverable 3
+
+t.test(susp_coils$PSI,mu=1500)
+
+lot1 <- subset(susp_coils,Manufacturing_Lot=="Lot1")
+lot2 <- subset(susp_coils,Manufacturing_Lot=="Lot2")
+lot3 <- subset(susp_coils,Manufacturing_Lot=="Lot3")
+
+t.test(lot1$PSI,mu=1500)
+t.test(lot2$PSI,mu=1500)
+t.test(lot3$PSI,mu=1500)
